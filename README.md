@@ -14,9 +14,14 @@ GitHub Pages: https://sherlock3rd.github.io/MeettingGame/
 
 ## 验证
 
-`node --test playtest/council-model.test.cjs playtest/council-guide.test.cjs playtest/council-identity.test.cjs`
+`node --test playtest/council-model.test.cjs playtest/council-guide.test.cjs playtest/council-identity.test.cjs playtest/council-actions.test.cjs`
 
 ## 本次发布
+
+- 投票后先通过会长与后队护卫对白交代行动安排，再共同引出收车、拆解废车、改车三项准备。
+- 两种路线只改变任务名与叙事理由，实际完成要求相同；准备齐全后共同前往伏击袭击者车队。
+- 玩家领一项，两名同伴依次领走余项；晋升、汇报不拆给同伴。依然不执行任务。
+- 领头选择卡将方向放在最大标题，身份居次、领头动作最末。
 
 - 职级布章、头像、姓名跨座位/对白/计票/行动纸统一。
 - 保留逐人投票与真实多数结果，以人手槽、帮徽、行动纸状态代替大段操作教程。

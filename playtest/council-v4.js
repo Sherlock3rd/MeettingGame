@@ -12,7 +12,7 @@
     return M.votes(state.mode==='draft'?'mission':state.mode,player,state.accepted);
   }
   function terms(){return state.mode==='amend'&&state.decision?.winner==='a'?state.preps.map(k=>M.preparations[k].effect).join('；'):state.accepted&&state.decision?.winner==='a'?'镇内不动炸药':'按议会决议行事';}
-  function jobData(id){return M.jobs[id];}
+  function jobData(id){return window.CouncilActions.job(state.decision.winner,id);}
   function stop(){clearTimeout(timer);timer=null;afterLine=null;}
   function positionBubble(){
     const stage=$('.stage'),avatar=$(`.seat[data-who="${state.who||'杰森'}"] .avatar`),bubble=$('#speechBubble');
@@ -60,7 +60,7 @@
     $('#flowLabel').textContent='宣案 · 落徽 · 选差事 · 领命 · 散会';
     $('#progress').innerHTML='';
     const intro=[['杰森','德拉尼炸了商业街，一间铺子，三条人命。兄弟们，说说这笔账怎么算。'],['伊摩','暗中突破，先断他们的武器。'],['博姆','全面反击，直接打垮他们。']];
-    if(mode==='sway')intro.push(['科尔','我现在赞成全面反击。暗中往仓库放炸药？旁边就是镇民住的地方。']);
+    if(mode==='sway')intro.push(['科尔','我现在赞成全面反击。要是在镇里埋炸药等车队，旁边的镇民怎么办？']);
     if(mode==='call')intro.push(['科尔','我和小八还没定。谁肯先站出来领头，我们就跟谁。']);
     if(mode==='amend')intro.push(['杰森','暗中走这条路，得先把准备安排好。今晚只有两组兄弟能提前出门，三件事不能全办。']);
     if(mode==='draft')intro.push(['杰森','先落徽，把方向定下来。然后兄弟们分工，你自己说愿意接哪件事。']);
@@ -69,7 +69,7 @@
   function callChoice(){
     G.set('call');
     say('杰森','你想先听谁把领队的事说清？一旦落徽，就不再改票。');
-    panel('谁带第一队？',`<div class="followers"><span>等领队</span>${face('科尔')}${face('小八')}<span class="join-arrow">↓</span></div><div class="choices"><button class="choice leader-choice" id="callImo">${face('伊摩')}<b>请他领头</b><span>暗中突破</span></button><button class="choice leader-choice" id="callBom">${face('博姆')}<b>请他领头</b><span>全面反击</span></button></div>`);
+    panel('谁带第一队？',`<div class="followers"><span>等领队</span>${face('科尔')}${face('小八')}<span class="join-arrow">↓</span></div><div class="choices"><button class="choice leader-choice route-a" id="callImo"><b class="decision-route">暗中突破</b>${face('伊摩')}<span class="leader-action">请他领头 →</span></button><button class="choice leader-choice route-b" id="callBom"><b class="decision-route">全面反击</b>${face('博姆')}<span class="leader-action">请他领头 →</span></button></div>`);
     $('#callImo').onclick=()=>beginCall('伊摩');$('#callBom').onclick=()=>beginCall('博姆');
   }
   function beginCall(first){state.first=first;state.revealed=[];reveal(M.callVotes(first,'a').slice(0,3),()=>{voteChoice();});}
@@ -85,13 +85,13 @@
   function negotiate(){
     G.set('sway');
     say('杰森','科尔，你还有什么顾虑？');
-    panel('开票前，最后一句话',forecast()+`<div class="negotiation"><div>${face('科尔')}<b>科尔 · 担心仓库旁的镇民</b><p>“你们要在镇里引爆，我就不支持。”</p></div><div class="actions">${button('找科尔谈谈','talk')}${button('不谈了，照常投票','direct',true)}</div></div>`);
+    panel('开票前，最后一句话',forecast()+`<div class="negotiation"><div>${face('科尔')}<b>科尔 · 担心沿街的镇民</b><p>“你们要在镇里引爆，我就不支持。”</p></div><div class="actions">${button('找科尔谈谈','talk')}${button('不谈了，照常投票','direct',true)}</div></div>`);
     $('#talk').onclick=offer;$('#direct').onclick=voteChoice;
   }
   function offer(){
     G.set('offer');
-    say('科尔','想让我支持暗中突破，就答应：不动炸药，把武器搬出来。你得多冒点险。');
-    panel('这句保证，你给吗？',`<div class="offer-head">${face('科尔')}<p>“镇里不动炸药。做得到，我跟你。”</p></div><div class="choices"><button class="choice" id="accept"><b>签下：镇内禁用炸药</b><span>科尔 → 暗中突破</span><em>仓库：潜入搬走武器</em></button><button class="choice" id="reject"><b>不签，保留爆破</b><span>科尔 → 全面反击</span></button></div>`);
+    say('科尔','想让我支持暗中突破，就答应镇里不动炸药。靠车把他们截住，别再伤到镇民。');
+    panel('这句保证，你给吗？',`<div class="offer-head">${face('科尔')}<p>“镇里不动炸药。做得到，我跟你。”</p></div><div class="choices"><button class="choice" id="accept"><b>签下：镇内禁用炸药</b><span>科尔 → 暗中突破</span><em>整备车辆，截住车队</em></button><button class="choice" id="reject"><b>不签，保留爆破</b><span>科尔 → 全面反击</span></button></div>`);
     $('#accept').onclick=()=>{state.accepted=true;forecast(true);G.set('reply');dialogue([['科尔','行，我愿意支持暗中突破。等会儿落徽时算我一个。记住，不许炸。']],voteChoice);};
     $('#reject').onclick=()=>{forecast(true);G.set('reply');dialogue([['科尔','那就没得谈了。我还是赞成全面反击。']],voteChoice);};
   }
@@ -122,19 +122,20 @@
     G.set('verdict');
     const {winner,a,b}=state.decision;
     window.CouncilVoteView.update(state.votes,'已落槌','ballot',{accepted:state.accepted,preps:state.preps});
-    say('杰森',`${sideName(winner)}，${a} 比 ${b}。全桌照票办事，接下来领命。`);
+    say('杰森',`${sideName(winner)}，${a} 比 ${b}。方向定了，接着说怎么动手。`);
     panel(`${sideName(winner)} · ${a}:${b}`,`<div class="decision-seal">议会通过</div><p class="contract">${terms()}</p><div class="actions">${button(state.mode==='draft'?'和兄弟分工':'摊开行动纸','jobs')}</div>`);
-    $('#jobs').onclick=state.mode==='draft'?dutyTalk:jobList;
+    $('#jobs').textContent='商定接下来的行动';
+    $('#jobs').onclick=()=>{G.set('action');dialogue(window.CouncilActions.briefing(winner),state.mode==='draft'?dutyTalk:jobList);};
   }
   function dutyTalk(){
     G.set('duty');
-    const side=state.decision.winner,plan=M.dutyPlans[side];state.duty=null;
+    const side=state.decision.winner,plan=window.CouncilActions.plan(side);state.duty=null;
     window.CouncilVoteView.assignment({side,status:'open'});
     say(plan.peer,plan.intro);
     panel('你接哪件？',`${face(plan.peer)}<div class="duty-replies">${plan.choices.map(c=>`<button class="duty-reply" data-duty="${c.id}"><b>“${c.line}”</b><span>你负责：${jobData(c.id).name}</span></button>`).join('')}</div>`);
     document.querySelectorAll('[data-duty]').forEach(b=>b.onclick=()=>{
       const c=plan.choices.find(c=>c.id===b.dataset.duty);
-      state.duty=M.claimDuty(side,c.id);window.CouncilVoteView.assignment(state.duty);
+      state.duty=window.CouncilActions.claim(side,c.id);window.CouncilVoteView.assignment(state.duty);
       G.set('dutyReply');
       dialogue([['你',c.line],[plan.peer,c.reply]],dutyConfirm);
     });
@@ -142,16 +143,16 @@
   function dutyConfirm(){
     G.set('confirm');
     const d=state.duty;
-    panel('两件事，各自负责',`<p>你去${jobData(d.job).map}，${d.peer}负责${jobData(d.peerJob).name}。</p><div class="actions">${button('就这么分，领命','depart')}${button('我想换一件','other',true)}</div>`);
+    panel('三件差事，各自负责',`<div class="actions">${button('就这么分，领命','depart')}${button('我想换一件','other',true)}</div>`);
     $('#depart').onclick=()=>confirmAssignment(d.job);$('#other').onclick=dutyTalk;
   }
   function jobList(){
     G.set('jobs');
     state.job=null;$('#flowLabel').textContent='决议已定 · 挑选差事 · 确认领命';
-    const winner=state.decision.winner,list=Object.entries(M.jobs).filter(([,j])=>j.side===winner);
-    say('杰森','你先挑一项，剩下那张交给其他兄弟。领了就去办，回来拿成果说话。');
+    const winner=state.decision.winner,list=window.CouncilActions.jobs(winner).map(j=>[j.id,j]);
+    say('杰森','收车、拆车、改车。你先挑一项，剩下两件兄弟们接。');
     const descriptions={warehouse:state.accepted?'不许爆破。观察守卫，分三次把武器箱运出来。':'可以等巡逻空当搬箱，也能直接爆破，但炸毁就带不回材料。',tail:'随目标快慢调整跟踪距离。太近会暴露，太远会跟丢。',intercept:'连续三个路口，找出畅通车道；选错路就会让补给车逃走。',assault:'盯住守卫开火和换弹；躲过扫射，抓住空当击退三组守卫。'};
-    panel('认领差事',`<p class="contract">${terms()}</p><div class="job-folders">${list.map(([id,j])=>`<button class="folder" data-job="${id}"><small>${j.map}</small><h3>${j.name}</h3><dl><dt>行动</dt><dd>${j.skill}</dd><dt>预期带回</dt><dd>${j.reward}</dd></dl><div class="unsigned-mark">＋ 认领人</div><strong>拿起这张 →</strong></button>`).join('')}</div>`);
+    panel('出发前的三件差事',`<p class="contract">${terms()}</p><div class="job-folders">${list.map(([id,j])=>`<button class="folder" data-job="${id}"><small>${j.map}</small><h3>${j.name}</h3><p>${j.content}</p><div class="unsigned-mark">＋ 认领人</div><strong>拿起这张 →</strong></button>`).join('')}</div>`);
     document.querySelectorAll('[data-job]').forEach(b=>b.onclick=()=>jobDetail(b.dataset.job));
   }
   function jobDetail(id){
@@ -164,21 +165,23 @@
   function confirmAssignment(id){
     G.set('claim');
     const j=jobData(id);
-    state.duty=M.claimDuty(state.decision.winner,id);
+    state.duty=window.CouncilActions.claim(state.decision.winner,id);
     state.job={id,name:j.name,map:j.map,status:'assigned',quiet:state.accepted&&state.decision.winner==='a'};
     say('你',`${j.name}，我领了。`);
-    panel('差事各有所属',assignmentPapers(false));
-    timer=setTimeout(()=>{
+    let claimed=1;
+    panel('差事各有所属',assignmentPapers(claimed));
+    const nextClaim=()=>{const owner=state.duty.assignments[claimed++];
+      say(owner.who,`${jobData(owner.id).name}归我。准备齐了，一起去伏击车队。`);
+      if(claimed<state.duty.assignments.length){panel('差事各有所属',assignmentPapers(claimed));timer=setTimeout(nextClaim,1400);return;}
       timer=null;state.duty.status='assigned';G.set('end');
-      say(state.duty.peer,`那${jobData(state.duty.peerJob).name}归我。兄弟，各自准备。`);
       $('#flowLabel').textContent='票已落定 · 各自领命 · 待行动';
-      panel('各自领命 · 散会',assignmentPapers(true)+`<p class="contract">${sideName(state.decision.winner)} · ${terms()}</p><div class="actions">${button('回到会所前厅','home')}</div>`);
+      panel('各自领命 · 散会',assignmentPapers(claimed)+`<p class="contract">准备齐全 → 前往伏击袭击者车队</p><p class="contract">${sideName(state.decision.winner)} · ${terms()}</p><div class="actions">${button('回到会所前厅','home')}</div>`);
       $('#home').onclick=home;
-    },1400);
+    };timer=setTimeout(nextClaim,1400);
   }
-  function assignmentPapers(peerClaimed){
+  function assignmentPapers(claimed){
     const d=state.duty;
-    return `<div class="duty-papers final-assignments" aria-live="polite">${[{id:d.job,who:'你',claimed:true},{id:d.peerJob,who:d.peer,claimed:peerClaimed}].map(p=>`<article class="duty-paper ${p.who==='你'?'yours':'peer-paper'} ${p.claimed?'claimed':'awaiting'}"><small>${jobData(p.id).map}</small><h3>${jobData(p.id).name}</h3><p>${jobData(p.id).skill}</p><div class="duty-signature">${p.claimed?face(p.who):'<span class="unsigned-mark">＋ 认领人</span>'}<strong class="claim-stamp">${p.claimed?'已领命':'待认领'}</strong></div></article>`).join('')}</div>`;
+    return `<div class="duty-papers final-assignments" aria-live="polite">${d.assignments.map((p,i)=>`<article class="duty-paper ${p.who==='你'?'yours':'peer-paper'} ${i<claimed?'claimed':'awaiting'}"><small>${jobData(p.id).map}</small><h3>${jobData(p.id).name}</h3><p>${jobData(p.id).skill}</p><div class="duty-signature">${i<claimed?face(p.who):'<span class="unsigned-mark">＋ 认领人</span>'}<strong class="claim-stamp">${i<claimed?'已领命':'待认领'}</strong></div></article>`).join('')}</div>`;
   }
   function home(){stop();state.phase='menu';closePanel();$('#game').classList.remove('active');$('#menu').style.display='block';$('#headerMode').textContent='会所议事准备';}
   document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>start(b.dataset.mode));

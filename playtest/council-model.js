@@ -58,7 +58,7 @@
   }
   function reward(s){return s.done&&s.success?(s.id==='warehouse'&&s.selected.length!==3?0:s.id==='tail'?1:s.progress):0;}
   // Council prototypes use local, finite meeting decisions, never a new permanent currency.
-  const preparations={safe:{name:'疏散邻街',effect:'镇民先撤离；镇内不动炸药'},scout:{name:'摸清巡逻',effect:'仓库与账房的路线情报'},riders:{name:'安排接应',effect:'小八带车队接应；不必独自撤离'}};
+  const preparations={safe:{name:'疏散邻街',effect:'镇民先撤离；镇内不动炸药'},scout:{name:'摸清巡逻',effect:'车队经过的路线情报'},riders:{name:'安排接应',effect:'小八带车队接应；不必独自撤离'}};
   function callVotes(first,player){
     if(!['伊摩','博姆'].includes(first))throw Error('Unknown first speaker');
     const side=first==='伊摩'?'a':'b',other=side==='a'?'博姆':'伊摩';
