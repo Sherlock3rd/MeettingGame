@@ -42,3 +42,16 @@
 #menu .cp-baseline{padding:14px 18px;border-left:2px solid #8bb8c7;background:#8bb8c709;font-size:13px;line-height:1.85;color:#bfd0cf}
 @media(max-width:800px){.cp-route-grid{grid-template-columns:1fr}.cp-discussion{padding-top:28px;margin-top:28px}#menu .cp-route{padding:20px}.cp-details{padding:16px}.cp-fork{padding:16px}.cp-chapter{padding:26px 0}#menu .cp-discussion p{font-size:14px}.cp-table th,.cp-table td{padding:12px}.cp-fork-paths{gap:8px;font-size:12px}.cp-fork-node{font-size:13px}.cp-nav{gap:7px}}
 @media(max-width:500px){#menu .cp-intro h2{font-size:26px}.cp-route li{font-size:12px;padding:10px 8px}}
+
+/* Discussion first, playtest after the expression comparison. */
+#menu #meeting-position{margin-top:24px;padding-top:24px}
+#menu #meeting-position .cp-route{padding:20px 24px}
+#menu #meeting-position .cp-route h3{font-size:22px;margin:0 0 14px}
+#menu #meeting-position .cp-route p{margin:10px 0;line-height:1.7}
+#menu #meeting-position .cp-intro h2{font-size:32px;margin:10px 0}
+.demo-playground{margin:40px 0;padding:32px 0;border-top:1px solid #ffffff28;scroll-margin-top:24px}
+#menu .demo-playground h2{font-size:28px;margin:12px 0}
+#menu .demo-playground p{font-size:14px;color:#d8d7c9;line-height:1.8}
+.demo-playground .mode-grid{margin-top:22px}
+@media(max-width:800px){#menu #meeting-position .cp-intro h2{font-size:26px}#menu #meeting-position .cp-route h3{font-size:21px}.demo-playground .mode-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:500px){.demo-playground .mode-grid{grid-template-columns:1fr}}

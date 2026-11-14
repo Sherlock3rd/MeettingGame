@@ -37,10 +37,10 @@
   const pin = document.createElement('button');
   pin.type='button'; pin.id='meeting-pin'; pin.className='tl-pin'; pin.textContent='◆ PIN · 拟新增会议'; pin.title='拖动到虚线候选位置，或用方向键移动';
   note.value=state.note;
-  overview.querySelector('h2').textContent='这场会议，让玩家怎样参与？';
-  overview.querySelector('.eyebrow').textContent='第三步 · 锚定位置后讨论实现表达';
-  overview.querySelector('p').textContent='先决定会议要给玩家的体验，再锚定故事中的落点。下面四版用于比较带动、被回应、被认可与主动承担，之后再决定如何改编到选定节点。';
-  overview.querySelector('.dn-thesis-detail').textContent='现有 demo 沿用旧反击会议情境，停在领命；不能直接替代新台本的转正仪式、任务数量或后续政令。若选序章衔接处，需要另写符合当时身份、信息与权限的议题。';
+  overview.querySelector('h2').textContent='先看「一诺换票」：用承诺换来支持';
+  overview.querySelector('.eyebrow').textContent='第三步 · 体验方案与试玩';
+  overview.querySelector('p').textContent='听见顾虑 → 作出保证 → 获得支持。先看「一诺换票」如何让玩家感到自己的表达被听见，再与其他三版对照。';
+  overview.querySelector('.dn-thesis-detail').textContent='试玩沿用反击会议情境，止于领命。若放在序章至第一章之间，需按当时身份与信息改写议题。';
   const anchorSummary=document.createElement('div'); anchorSummary.id='timeline-anchor-summary'; anchorSummary.className='tl-anchor-summary'; overview.querySelector('.dn-thesis-detail').after(anchorSummary);
   function save(){try{localStorage.setItem(key,JSON.stringify(state));storageOK=true;}catch{storageOK=false;}}
   function update(announce=false){
