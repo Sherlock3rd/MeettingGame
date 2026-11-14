@@ -1,0 +1,44 @@
+/* Design discussion only. The playable meeting retains its own UI. */
+.cp-discussion{margin-top:42px;padding-top:42px;border-top:1px solid #ffffff28;scroll-margin-top:20px}
+.cp-intro{display:block;padding:0;border:0;background:none;position:static}
+#menu .cp-discussion p{max-width:none;line-height:1.9;font-size:15px;margin:12px 0;color:#d8d7c9}
+#menu .cp-discussion h2{font-size:clamp(24px,3vw,36px);line-height:1.45;color:#f0e9d7;margin:0 0 18px}
+#menu .cp-intro h2{font-size:clamp(30px,3.8vw,45px);line-height:1.35;margin:14px 0 20px}
+.cp-status{display:inline-block;font-size:12px;line-height:1.8;color:#dbbd79;border:1px solid #a38a4b60;padding:7px 12px;border-radius:4px;margin:10px 0 24px}
+.cp-route-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:22px}
+#menu .cp-route{--cp-color:#d99a71;display:block;text-decoration:none;color:#e3dcca;padding:26px;border:1px solid #8e735248;border-top:3px solid var(--cp-color);border-radius:10px;background:linear-gradient(145deg,#d99a710b,#ffffff03)}
+#menu .cp-route-b{--cp-color:#90b8bd;background:linear-gradient(145deg,#90b8bd0e,#ffffff03)}
+#menu .cp-route small,#menu .cp-route>b,#menu .cp-route>span{color:var(--cp-color);font-size:13px}
+#menu .cp-route h3{font-size:25px;line-height:1.5;margin:12px 0 10px}
+#menu .cp-route p{font-size:14px;margin:8px 0 16px}
+.cp-route ol{list-style:none;padding:0;margin:20px 0 24px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;counter-reset:step}
+.cp-route li{counter-increment:step;font-size:13px;line-height:1.7;padding:12px;background:#00000025;border:1px solid #ffffff16;border-radius:4px}
+.cp-route li:before{content:counter(step,decimal-leading-zero);display:block;color:var(--cp-color);font-size:11px;margin-bottom:5px}
+#menu .cp-caption{font-size:12px;color:#aeb1a1;margin:16px 0 26px;line-height:1.8}
+.cp-nav{display:flex;flex-wrap:wrap;gap:10px;margin:26px 0}
+.cp-nav a{font-size:13px;padding:9px 12px;border:1px solid #ffffff25;border-radius:4px;text-decoration:none}
+.cp-nav a:hover,.cp-route:hover{background-color:#ffffff08!important;border-color:#c1a76a!important}
+.cp-nav a:focus-visible,.cp-route:focus-visible,.cp-details summary:focus-visible{outline:2px solid #e5c47b;outline-offset:4px}
+.cp-chapter{padding:32px 0;border-top:1px solid #ffffff20;scroll-margin-top:22px}
+.cp-chapter h3{font-size:18px;color:#d5b675;line-height:1.7;margin:28px 0 12px}
+.cp-chapter blockquote{border-left:3px solid #c6a56a;padding:14px 22px;margin:15px 0 25px;background:#c6a56a0b}
+#menu .cp-chapter blockquote p{font-size:20px;color:#eadbb8;line-height:1.75;margin:0}
+.cp-table{max-width:100%;overflow:auto;margin:20px 0;border:1px solid #ffffff1b;border-radius:6px}
+.cp-table table{border-collapse:collapse;width:100%;min-width:680px;font-size:13px;text-align:left;line-height:1.85}
+.cp-table th,.cp-table td{padding:14px 16px;border-bottom:1px solid #ffffff19;vertical-align:top}
+.cp-table th{color:#e0c88f;background:#b79b6212}.cp-table td{color:#d1d0c1}.cp-table tr:last-child td{border-bottom:0}
+.cp-table td:first-child{min-width:125px;color:#e4d9bd}
+.cp-proof{max-width:860px;margin:20px auto}.cp-proof img{display:block;width:100%;height:auto;border:1px solid #ffffff25;border-radius:7px}
+.cp-proof figcaption{font-size:12px;line-height:1.8;color:#aeb1a1;margin-top:10px}
+.cp-details{border:1px solid #ffffff22;background:#ffffff03;padding:20px 24px;border-radius:7px;margin:26px 0}
+.cp-details summary{cursor:pointer;color:#d6bd82;font-size:15px;line-height:1.8}.cp-details[open] summary{padding-bottom:14px;border-bottom:1px solid #ffffff20}
+.cp-fork{margin:26px 0;padding:26px;background:#8bb8c709;border:1px solid #8bb8c73d;border-radius:8px;text-align:center}
+.cp-fork figcaption{font-size:12px;color:#a7c6c9;margin-bottom:20px;line-height:1.7}
+.cp-fork-node{max-width:650px;margin:0 auto;padding:12px;border:1px solid #8bb8c749;border-radius:4px;font-size:14px;line-height:1.8;color:#d7e0da}
+.cp-fork-node+.cp-fork-node{margin-top:12px}
+.cp-fork-paths{display:grid;grid-template-columns:1fr 1fr;gap:16px;max-width:650px;margin:12px auto;font-size:14px;line-height:2;color:#9dbbc1}
+.cp-fork-paths span{padding:10px;border:1px dashed #8bb8c750;border-radius:4px}
+#menu .cp-fork p{font-size:13px;color:#a7b8b5}
+#menu .cp-baseline{padding:14px 18px;border-left:2px solid #8bb8c7;background:#8bb8c709;font-size:13px;line-height:1.85;color:#bfd0cf}
+@media(max-width:800px){.cp-route-grid{grid-template-columns:1fr}.cp-discussion{padding-top:28px;margin-top:28px}#menu .cp-route{padding:20px}.cp-details{padding:16px}.cp-fork{padding:16px}.cp-chapter{padding:26px 0}#menu .cp-discussion p{font-size:14px}.cp-table th,.cp-table td{padding:12px}.cp-fork-paths{gap:8px;font-size:12px}.cp-fork-node{font-size:13px}.cp-nav{gap:7px}}
+@media(max-width:500px){#menu .cp-intro h2{font-size:26px}.cp-route li{font-size:12px;padding:10px 8px}}
