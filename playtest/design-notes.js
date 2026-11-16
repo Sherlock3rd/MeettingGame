@@ -31,14 +31,15 @@
   const referenceBlock = id => { const m=meaning[id]; return `<section class="dn-reference"><div class="dn-reference-heading"><div><span class="dn-label">抽象游戏参考与映射</span><h3>${m.reference}</h3></div><span class="dn-ref-kind">${m.kind}</span></div><div class="dn-reference-grid"><figure><a href="../assets/${m.img}" target="_blank" rel="noopener"><img src="../assets/${m.img}" alt="${m.caption}" loading="lazy"></a><figcaption>${m.caption} <a href="${m.url}" target="_blank" rel="noopener">官方来源 ↗</a></figcaption></figure><div><h4>原作中的具体场景</h4><p>${m.original}</p><h4>抽象出的机制</h4><p class="dn-model">${m.abstract}</p><h4>映射到本 demo</h4><p>${m.mapping}</p><h4>借鉴边界</h4><p>${m.boundary}</p></div></div><div class="dn-model-caption"><b>本方案最小模型</b><span>${m.model}</span></div></section>`; };
   const premise = `<section class="dn-premise" id="design-premise" aria-labelledby="premise-title"><div class="eyebrow">基础设计支点 / 已确认</div><h2 id="premise-title">同一套会议玩法，四种参与体验。<br>不同的当场回应，收束到同一主线。</h2><p>DOBE 以“假单机”的方式呈现这场帮派会议：成员立场、票型和回应可以由系统编排，玩家的选择可以被引导。选择主要影响会议中的表达、人物回应、局势演出与分工感受，后续游戏体验保持相近，最终进入相同的主线内容。</p><div class="dn-premise-grid"><div><b>系统可以引导</b><p>通过议题包装、成员态度、选项措辞与票型安排，让玩家自然走向主线需要的决议。</p></div><div><b>选择得到回应</b><p>玩家开口、点名或认领后，应有对应人物和反馈承接，让参与过程可感知、前后连贯。</p></div><div><b>主线统一收束</b><p>无需为每次选择制作新的关卡、长期损失或剧情分支。不同表达最终服务同一段内容。</p></div></div><div class="dn-converge"><span class="dn-anchor">共同冲突：商业街遇袭</span><div class="dn-branches"><span>我带动了兄弟</span><span>兄弟回应了我</span><span>我的安排被认可</span><span>我主动接下责任</span></div><span class="dn-anchor">共同主线：收车 → 拆车 → 改车 → 伏击车队</span></div><p class="dn-evidence">图中四路代表会议体验重心，随后汇合为同一主线。现有 demo 的票数和认领逻辑保留；这一轮调整的是设计定位、讲解口径和验收标准。</p></section>`;
   menu.id = 'menu';
-  menu.querySelector('.menu-head').innerHTML = `<div><div class="eyebrow">灰烬之子 · 会所议事夜</div><h1>会议的作用与玩家体验</h1><p>会议承担什么作用，玩家从中获得什么体验？先看设计目的与剧情位置，再比较体验方案、进入试玩。</p></div><a class="dn-jump" href="#design-overview">阅读设计 ↓</a>`;
+  menu.querySelector('.menu-head').innerHTML = `<div><div class="eyebrow">灰烬之子 · 会所议事夜</div><h1>会议设计讨论</h1><p>设计目的 → 剧情位置 → 会议形式 → 会议内容 → 试玩</p></div><a class="dn-jump" href="#meeting-position">开始讨论 ↓</a>`;
   const modeCards = menu.querySelectorAll('.mode-card');
-  modeCards.forEach((el,i)=>{
-    el.querySelector('.tag').textContent = ['带动感','被回应感','统筹感','主动承担感'][i];
-    el.querySelector('.ref').textContent='进入试玩 ↗';
-  });
-  modeCards[1].querySelector('p').textContent='戴尔愿意改口，但要你答应镇里不动炸药。接受或拒绝，再投下自己的帮徽。';
-  modeCards[2].querySelector('p').textContent='疏散、摸路、接应，只有两组人。调整安排，看不同兄弟如何改变意见。';
+  const labels={
+    call:{n:'CP2',title:'站票选边',verb:'公开站队 → 看见两边对抗',tag:'旧原型：谁先领头',ref:'逐席跟票对照',body:'提案让成员公开站队。现原型用领头跟票呈现态度，还没有角色起身站位。'},
+    sway:{n:'CP1',title:'谈判承诺',verb:'旧02试玩：承诺 → 获得支持',tag:'旧原型：一诺换票',ref:'进入试玩 ↗',body:'此入口打开旧02：向成员作出保证以争取支持；尚未实现付出代价 A 换取抉择权。'},
+    amend:{n:'CP3',title:'选项覆盖',verb:'组合选项 → 覆盖成员顾虑',tag:'旧原型：把事安排妥',ref:'有限方案对照',body:'选方案覆盖不同顾虑，观察成员态度如何变化。现原型用两组人手安排三项准备做对照。'},
+    draft:{n:'CP4',title:'普通投票',verb:'投票 → 计票 → 形成决议',tag:'旧原型：各领其命',ref:'普通计票对照',body:'围绕议题直接投票并公布结果；认领任务是投票后的共同分工。'}
+  };
+  modeCards.forEach(el=>{const c=labels[el.dataset.mode];el.querySelector('.n').textContent=c.n;el.querySelector('h2').textContent=c.title;el.querySelector('.verb').textContent=c.verb;el.querySelector('.tag').textContent=c.tag;el.querySelector('.ref').textContent=c.ref;el.querySelector('p').textContent=c.body;});
   menu.insertAdjacentHTML('beforeend', `
     <section class="dn-overview" id="design-overview" aria-labelledby="dn-title">
       <div class="dn-room"><img src="../assets/dobe-council-room-v2-isometric.png" alt="灰烬之子会所：成员围坐长桌，主持人在桌首，会议连接集体决议与行动分工" loading="lazy"><span>同一张会桌 · 四种参与感 · 同一主线</span></div>

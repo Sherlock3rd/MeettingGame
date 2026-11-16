@@ -28,7 +28,7 @@
   <div class="tl-selects"><label>选择讨论位置<select id="pin-location" aria-label="选择讨论位置">${slots.map(s=>`<option value="${s.id}">${s.chapter} · ${esc(s.label)}</option>`).join('')}</select></label><button type="button" id="pin-reveal">查看 PIN</button></div>
   <label class="tl-note">讨论备注<input id="pin-note" type="text" maxlength="240" placeholder="这场会议希望带来什么体验？"></label><p id="pin-context"></p><small id="pin-storage"></small><div class="tl-live" role="status" aria-live="polite" id="pin-live"></div></div></details>
   <details class="tl-source-notes"><summary>来源、已有会议判断与版本差异</summary><p>读取日期 ${D.readDate}：第一份工作簿 revision 1712，第二份 revision 1790。按事件内容将第一份“序幕(第一章)图文台本”映射为序章 L01–L05，“第一幕图文台本”映射为第一章 L06–L16；不把页签括号名称另算一个章节。</p><ul>${Object.values(D.sources).map(s=>`<li><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.title)} ↗</a> · sheet ${s.sheet}</li>`).join('')}</ul><p><b>会议定位：</b>L09 明确保留会议黑盒；L04–L05 是会所汇报/转正仪式。L16、L27–L28、L34、L45–L46 为认可或汇报，未明确给出议会流程。第三章 L39 的“拿到议会桌上”是人物诉求，实际仍接处决，不能标作已发生审判会议。</p><p><b>版本差异：</b>第一章 84/91 行要求不指定爆炸地点，95/127 行台词提到仓库，本图只写“突发爆炸”。123 行写两项准备任务，248 行仍写三项准备，本图不定任务数量。第二章 L25–L26 不同列存在人物版本差异，本图只保留敌情、帮手、战斗的共同事件。</p><p><b>政令范围：</b>第二章表 177 行写“议会政令系统-7日”，没有一日版正式开放节点。此处可讨论前期会议插入，但不能把常驻政令自动标成一日版已完成内容。第四、第五章无来源台本，只有填充位置。</p></details>
-  <a class="tl-next" href="#design-overview">第三步：讨论实现体验 ↓</a></section>`);
+  <a class="tl-next" href="#meeting-formats">第三步：比较四种会议形式 ↓</a></section>`);
   const root = document.getElementById('scope-timeline');
   const board = root.querySelector('.tl-board');
   const location = root.querySelector('#pin-location');
@@ -37,14 +37,18 @@
   const pin = document.createElement('button');
   pin.type='button'; pin.id='meeting-pin'; pin.className='tl-pin'; pin.textContent='◆ PIN · 拟新增会议'; pin.title='拖动到虚线候选位置，或用方向键移动';
   note.value=state.note;
-  overview.querySelector('h2').textContent='先看「一诺换票」：用承诺换来支持';
-  overview.querySelector('.eyebrow').textContent='第三步 · 体验方案与试玩';
-  overview.querySelector('p').textContent='听见顾虑 → 作出保证 → 获得支持。先看「一诺换票」如何让玩家感到自己的表达被听见，再与其他三版对照。';
-  overview.querySelector('.dn-thesis-detail').textContent='试玩沿用反击会议情境，止于领命。若放在序章至第一章之间，需按当时身份与信息改写议题。';
+  overview.querySelector('h2').textContent='同一张会桌，可以承载不同表达形式';
+  overview.querySelector('.eyebrow').textContent='会所议事视觉参考';
+  overview.querySelector('p').textContent='前两步确定会议目的与故事落点；接下来先比较玩家如何表达和作决定。';
+  overview.querySelector('.dn-thesis-detail').textContent='试玩沿用旧反击会议情境，止于领命。新的 CP1 需要重新编排符合插入时点、玩家身份与信息的议题。';
   const anchorSummary=document.createElement('div'); anchorSummary.id='timeline-anchor-summary'; anchorSummary.className='tl-anchor-summary'; overview.querySelector('.dn-thesis-detail').after(anchorSummary);
+  const contentSection=document.getElementById('meeting-content');
+  const contentPin=document.createElement('p');contentPin.className='content-pin-summary';contentPin.id='content-pin-summary';
+  if(contentSection)contentSection.querySelector('h2')?.after(contentPin);
   function save(){try{localStorage.setItem(key,JSON.stringify(state));storageOK=true;}catch{storageOK=false;}}
   function update(announce=false){
     const s=slots.find(s=>s.id===state.slotId), index=slots.indexOf(s);
+    if(contentPin)contentPin.textContent=`PIN 当前落点：${s.chapter} · ${s.label}。第四步的第一章遇袭后与第三章结尾仍是内容候选，最终插入位置未定。`;
     root.querySelectorAll('.tl-dropzone').forEach(z=>{z.classList.toggle('is-selected',z.dataset.slotId===s.id);z.classList.remove('is-dragover');});
     root.querySelector(`[data-slot-id="${s.id}"] .tl-pin-home`).append(pin);
     pin.textContent=state.locked?'◆ PIN · 讨论位置已锚定':s.priority==='existing'?'◆ PIN · 改造已有会议':'◆ PIN · 拟新增会议';
@@ -111,4 +115,8 @@
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&drag){e.preventDefault();finishDrag(true);}});
   window.addEventListener('blur',()=>finishDrag(true));
   update();
+  const legacy=document.createElement('details');legacy.className='dn-legacy';legacy.innerHTML='<summary>展开旧四版试玩的详细设计分析与参考映射</summary>';
+  const archived=[...document.querySelectorAll('.dn-scope,.dn-nav,.dn-chapter,.dn-compare')];
+  archived.forEach(node=>legacy.append(node));
+  document.querySelector('#demo-playground')?.after(legacy);
 })();

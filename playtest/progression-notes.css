@@ -43,6 +43,24 @@
 @media(max-width:800px){.cp-route-grid{grid-template-columns:1fr}.cp-discussion{padding-top:28px;margin-top:28px}#menu .cp-route{padding:20px}.cp-details{padding:16px}.cp-fork{padding:16px}.cp-chapter{padding:26px 0}#menu .cp-discussion p{font-size:14px}.cp-table th,.cp-table td{padding:12px}.cp-fork-paths{gap:8px;font-size:12px}.cp-fork-node{font-size:13px}.cp-nav{gap:7px}}
 @media(max-width:500px){#menu .cp-intro h2{font-size:26px}.cp-route li{font-size:12px;padding:10px 8px}}
 
+/* Four-part discussion: compare meeting form, then place the content. */
+#menu .meeting-formats,#menu .meeting-content{margin:34px 0;padding:32px 0;border-top:1px solid #ffffff28;scroll-margin-top:24px}
+#menu .meeting-formats>h2,#menu .meeting-content>h2{font-size:clamp(25px,3vw,34px);line-height:1.45;margin:0 0 14px;color:#f0e9d7}
+#menu .meeting-formats>p,#menu .meeting-content>p{max-width:900px;font-size:14px;line-height:1.9;color:#d8d7c9}
+.meeting-format-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin:22px 0}
+.meeting-format-card{padding:20px;border:1px solid #ffffff20;border-top:3px solid #9a9c88;border-radius:8px;background:#ffffff04}
+.meeting-format-card.cp1{border-top-color:#d6a641}.meeting-format-card.cp2{border-top-color:#de936d}.meeting-format-card.cp3{border-top-color:#a4be7b}.meeting-format-card.cp4{border-top-color:#8bb8c7}
+.meeting-format-card>small{color:#e0c88f;font-size:12px;letter-spacing:.08em}.meeting-format-card h3{font-size:19px;margin:8px 0 12px;color:#f0e9d7}
+#menu .meeting-format-card p{font-size:13px;line-height:1.8;color:#c9c8ba;margin:9px 0}.meeting-format-card .format-experience{color:#eadbb8!important;font-size:14px!important}
+.meeting-format-card b{color:#d5b675}.meeting-formats .step-next{display:inline-block;margin-top:14px;color:#e1c67f}
+.content-pin-summary{padding:10px 14px;border-left:2px solid #d6b253;background:#d6b2530a;color:#e2d5ae!important}
+.meeting-content .cp-table table{min-width:880px}.meeting-content .cp-table th:first-child,.meeting-content .cp-table td:first-child{min-width:145px}
+.meeting-content h3{margin-top:30px;color:#d5b675;font-size:20px}
+.meeting-content>p strong{color:#eadbb8}.meeting-content>p a{color:#e1c67f}
+.dn-legacy{margin:30px 0;padding:16px 20px;border:1px solid #ffffff20;border-radius:8px;background:#ffffff03}
+.dn-legacy>summary{cursor:pointer;color:#d6bd82}.dn-legacy[open]>summary{margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid #ffffff20}
+@media(max-width:760px){.meeting-format-grid{grid-template-columns:1fr}.meeting-format-card{padding:16px}#menu .meeting-formats,#menu .meeting-content{padding:24px 0;margin:24px 0}.meeting-content .cp-table table{min-width:820px}}
+
 /* Discussion first, playtest after the expression comparison. */
 #menu #meeting-position{margin-top:24px;padding-top:24px}
 #menu #meeting-position .cp-route{padding:20px 24px}

@@ -2,7 +2,7 @@
 (() => {
   const $=s=>document.querySelector(s), M=window.CouncilModel, G=window.CouncilGuide, I=window.CouncilIdentity;
   const portraits={杰森:0,伊摩:1,卡莱布:2,科尔:3,博姆:4,小八:5,瑞秋:6,你:7};
-  const names={call:'谁先领头',sway:'一诺换票',amend:'把事安排妥',draft:'各领其命'};
+  const names={call:'CP2 · 站票选边',sway:'CP1 · 旧02一诺换票',amend:'CP3 · 选项覆盖',draft:'CP4 · 普通投票'};
   let state={},timer=null,afterLine=null;
   const face=I.face;
   const sideName=s=>s==='a'?'暗中突破':'全面反击';

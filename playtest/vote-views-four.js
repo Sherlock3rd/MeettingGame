@@ -4,7 +4,7 @@
  const toolbar=document.createElement('div');toolbar.className='vote-view-toolbar';game.prepend(toolbar);
  const deck=document.createElement('section');deck.id='voteView';deck.className='vote-view';deck.setAttribute('aria-label','议会记录');stage.after(deck);game.append(document.querySelector('#choiceLayer'));
  const people=['伊摩','博姆','卡莱布','小八','科尔','瑞秋','你'],portraits={杰森:0,伊摩:1,卡莱布:2,科尔:3,博姆:4,小八:5,瑞秋:6,你:7};
- const labels={call:['谁先领头','领头的人先落徽 · 其他兄弟随后表态'],sway:['一诺换票','承诺写在纸上 · 支持落在桌上'],amend:['把事安排妥','两组兄弟 · 三件准备 · 全桌表决'],draft:['各领其命','方向大家定 · 你来认领一件事']};
+ const labels={call:['CP2 · 站票选边','先落徽带动跟票 · 公开呈现两边立场'],sway:['CP1 · 谈判承诺（旧02）','现有试玩是承诺换支持 · 未实现代价 A 与抉择权交换'],amend:['CP3 · 选项覆盖','两组兄弟 · 三件准备 · 覆盖顾虑'],draft:['CP4 · 普通投票','围绕议题直接投票 · 结果后再分工']};
  const portrait=who=>`<i class="portrait p${portraits[who]}"></i>`;
  const I=window.CouncilIdentity;
  const badge=v=>`<span class="vote-chip ${v.side}">${portrait(v.who)}${I.label(v.who)}</span>`;
